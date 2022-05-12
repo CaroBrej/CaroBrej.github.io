@@ -9,8 +9,86 @@
     <div class="content">
       Strona Home posiada zwyczajny layout z zawijanym tekstem za obrazkiem
     </div>
+    <div class="content">
+      Tutaj będzie przykłąd użycia web API które to pozwoli nam na zrobinie
+      prostej operacji dodawania, odejmowania, mnożenia i dzielenia liczb
+      całkowitych
+    </div>
+    <div class="content">Liczba1: <input v-model="number1" /></div>
+    <div class="content">Liczba2: <input v-model="number2" /></div>
+    <div class="content">wybierz operator</div>
+    <div class="content">
+      <input type="radio" id="+" value="+" v-model="operator" />
+      <label for="+"> dodaj </label>
+      <input type="radio" id="-" value="-" v-model="operator" />
+      <label for="-"> odejmij </label>
+      <input type="radio" id="*" value="*" v-model="operator" />
+      <label for="*"> pomnóż </label>
+      <input type="radio" id="divide" value="divide" v-model="operator" />
+      <label for="divide"> podziel </label>
+    </div>
+    <div class="content">Twój wynik to: {{ result }}</div>
+    <div class="content">{{ validationmessege }}</div>
+    <div class="content"><button @click="GetResult">Policz</button></div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      number1: "",
+      number2: "",
+      operator: "+",
+      result: "0",
+      validationmessege: "",
+    };
+  },
+  methods: {
+    Checkvalidation() {
+      if (!this.number1 || !this.number2) {
+        this.validationmessege = "Trzeba podać dane";
+        return false;
+      }
+      const regex = /^([-]?[1-9]\d*|0)$/;
+      if (
+        !regex.test(this.number1) ||
+        !regex.test(this.number2) ||
+        (this.number2 == 0 && this.operator == "divide")
+      ) {
+        this.validationmessege = "błędne dane";
+        return false;
+      }
+      this.validationmessege = "";
+      return true;
+    },
+    GetResult() {
+      if (!this.Checkvalidation()) {
+        this.result = "0";
+        return;
+      }
+      const url =
+        "https://pwiapi4.azurewebsites.net/calculator/" +
+        this.number1 +
+        "," +
+        this.number2 +
+        "," +
+        this.operator;
+      console.log(url);
+      axios
+        .get(url)
+        .then((response) => {
+          this.result = response.data.result;
+        })
+        .catch(() => {
+          this.result = "0";
+          this.validationmessege = "coś poszło nie tak";
+        });
+    },
+  },
+};
+</script>
 
 <style>
 h1 {
