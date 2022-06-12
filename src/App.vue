@@ -24,11 +24,18 @@ export default {
 
 <style>
 * {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
+.container {
+  background-color: #5d71e2;
+  min-height: 100vh;
+  width: 100%;
+  padding-bottom: 30px;
+}
 .mobile__navbar {
   display: none;
 }
@@ -42,6 +49,12 @@ export default {
   }
   .navbar {
     display: none;
+  }
+  .container {
+    background-color: rgb(59, 57, 54);
+    min-height: 100vh;
+    width: 100vw;
+    color: white;
   }
 }
 </style>

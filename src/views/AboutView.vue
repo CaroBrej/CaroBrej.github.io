@@ -1,119 +1,75 @@
 <template>
-  <div class="about">
-    <h1>Witaj tutaj napisze troche jak jest zrobiona ta strona</h1>
-    <div class="content">
-      Strona jest napisana przy pomocy Vue 3 jest to framework dla wspiera on
-      zarówno js jak i ts a ja dopiero uczę się z nigo korzystać tak więc jeśli
-      przypadkiem trafiłeś na tą stronę to proszę o wyrozumiałość.
+  <div class="container">
+    <div class="maincontent">
+      <div class="section_title" id="first">{{ $t("aboutview.how") }}</div>
+      <div class="section_text">
+        {{ $t("aboutview.howtext") }}
+      </div>
+      <div class="section_title">{{ $t("aboutview.plugins") }}</div>
+      <div class="section_text">
+        {{ $t("aboutview.pluginstext") }}
+      </div>
+      <div class="section_title">{{ $t("aboutview.color") }}</div>
+      <div class="section_text">
+        {{ $t("aboutview.colortext") }}
+      </div>
+      <div class="section_title">{{ $t("aboutview.extras") }}</div>
+      <div class="section_text">
+        {{ $t("aboutview.extrastext") }}
+      </div>
     </div>
-    <div class="content">
-      Strona Home posiada zwyczajny layout z zawijanym tekstem za obrazkiem
-    </div>
-    <div class="content">
-      Tutaj będzie przykłąd użycia web API które to pozwoli nam na zrobinie
-      prostej operacji dodawania, odejmowania, mnożenia i dzielenia liczb
-      całkowitych
-    </div>
-    <div class="content">Liczba1: <input v-model="number1" /></div>
-    <div class="content">Liczba2: <input v-model="number2" /></div>
-    <div class="content">wybierz operator</div>
-    <div class="content">
-      <input type="radio" id="+" value="+" v-model="operator" />
-      <label for="+"> dodaj </label>
-      <input type="radio" id="-" value="-" v-model="operator" />
-      <label for="-"> odejmij </label>
-      <input type="radio" id="*" value="*" v-model="operator" />
-      <label for="*"> pomnóż </label>
-      <input type="radio" id="divide" value="divide" v-model="operator" />
-      <label for="divide"> podziel </label>
-    </div>
-    <div class="content">Twój wynik to: {{ result }}</div>
-    <div class="content">{{ validationmessege }}</div>
-    <div class="content"><button @click="GetResult">Policz</button></div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-export default {
-  data() {
-    return {
-      number1: "",
-      number2: "",
-      operator: "+",
-      result: "0",
-      validationmessege: "",
-    };
-  },
-  methods: {
-    Checkvalidation() {
-      if (!this.number1 || !this.number2) {
-        this.validationmessege = "Trzeba podać dane";
-        return false;
-      }
-      const regex = /^([-]?[1-9]\d*|0)$/;
-      if (
-        !regex.test(this.number1) ||
-        !regex.test(this.number2) ||
-        (this.number2 == 0 && this.operator == "divide")
-      ) {
-        this.validationmessege = "błędne dane";
-        return false;
-      }
-      this.validationmessege = "";
-      return true;
-    },
-    GetResult() {
-      if (!this.Checkvalidation()) {
-        this.result = "0";
-        return;
-      }
-      const url =
-        "https://pwiapi4.azurewebsites.net/calculator/" +
-        this.number1 +
-        "," +
-        this.number2 +
-        "," +
-        this.operator;
-      console.log(url);
-      axios
-        .get(url)
-        .then((response) => {
-          this.result = response.data.result;
-        })
-        .catch(() => {
-          this.result = "0";
-          this.validationmessege = "coś poszło nie tak";
-        });
-    },
-  },
-};
+export default {};
 </script>
 
-<style>
-h1 {
+<style scoped>
+.maincontent {
+  min-height: 80vh;
+  width: 80vw;
+  /*border: 2px solid rgba(245, 104, 104, 0.815);*/
+  border-top: 0px;
+  margin-left: 10%;
+  background-color: #b7bde1;
+  color: #3a3a3a;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  flex-wrap: wrap;
+}
+.section_title {
   display: flex;
-  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  padding: 20px;
+  color: #192371;
   justify-content: center;
+  text-align: center;
 }
 
-.content {
-  margin-top: 20px;
-  margin-left: 20px;
-  font-size: 1.5rem;
+.section_text {
+  display: flex;
+  padding: 10%;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  justify-content: center;
+  font-size: 1.3rem;
+  text-align: center;
+}
+#first {
+  padding-top: 10%;
 }
 @media (max-width: 640px) {
-  .content {
-    margin-top: 20px;
-    margin-left: 20px;
-    font-size: 1rem;
-  }
-
-  h1 {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    font-size: 1.5rem;
+  .maincontent {
+    min-height: 100vh;
+    width: 100%;
+    /*border: 2px solid rgba(245, 104, 104, 0.815);*/
+    border-top: 0px;
+    margin-left: 0%;
+    background-color: #b7bde1;
+    color: #3a3a3a;
+    flex-wrap: wrap;
   }
 }
 </style>
